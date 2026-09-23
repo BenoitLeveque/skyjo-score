@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12161F">
+<title>Skyjo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F8; --panel:#FFFFFF; --panel2:#E9EDF4; --line:#D5DCE8;
+  --text:#152036; --muted:#5A6680;
+  --primary:#1F6FB2; --on-primary:#FFFFFF;
+  --go:#2E8B34; --on-go:#FFFFFF;
+  --danger:#C23A2A;
+  --warn-bg:#FFF3CC; --warn:#6E5200;
+  --flag:#E7B416; --on-flag:#2A2000;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161F; --panel:#1B2130; --panel2:#252D40; --line:#323C55;
+    --text:#EDF1F7; --muted:#8C97AB;
+    --primary:#3FA8DE; --on-primary:#07131E;
+    --go:#4CAF50; --on-go:#06210A;
+    --danger:#F0695A;
+    --warn-bg:#3A3213; --warn:#F2C230;
+    --flag:#F2C230; --on-flag:#221A00;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161F; --panel:#1B2130; --panel2:#252D40; --line:#323C55;
+  --text:#EDF1F7; --muted:#8C97AB;
+  --primary:#3FA8DE; --on-primary:#07131E;
+  --go:#4CAF50; --on-go:#06210A;
+  --danger:#F0695A;
+  --warn-bg:#3A3213; --warn:#F2C230;
+  --flag:#F2C230; --on-flag:#221A00;
+  color-scheme: dark;
+}
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  font-size:16px; line-height:1.45;
+  -webkit-tap-highlight-color:transparent;
+}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+
+.app{max-width:560px;margin:0 auto;padding:18px 16px 112px}
+
+/* header */
+.top{display:flex;align-items:center;gap:12px}
+.logo{flex:none}
+.brand{flex:1;min-width:0}
+.brand h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-0.02em;line-height:1}
+.brand p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.lang{
+  appearance:none;-webkit-appearance:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:8px 12px;font-size:14px;font-weight:600;
+}
+
+/* generic */
+.h2{font-size:22px;font-weight:800;margin:26px 0 4px;letter-spacing:-0.01em}
+.h3{font-size:18px;font-weight:800;margin:0 0 4px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.stack{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:8px}
+.grow{flex:1;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:18px}
+.label{font-size:14px;font-weight:600;color:var(--muted);margin:22px 0 8px}
+
+.input{
+  height:48px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel2);padding:0 14px;font-size:17px;outline:none;width:100%;
+}
+.input:focus{border-color:var(--primary)}
+.seat{
+  flex:none;width:36px;height:48px;border-radius:10px;background:var(--panel2);
+  display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted);
+}
+.icon-btn{
+  flex:none;width:46px;height:48px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel2);font-size:20px;font-weight:700;color:var(--muted);
+}
+.btn{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:52px;border-radius:14px;border:1px solid transparent;
+  font-size:17px;font-weight:700;padding:0 16px;margin-top:12px;text-decoration:none;
+}
+.btn.primary{background:var(--primary);color:var(--on-primary)}
+.btn.go{background:var(--go);color:var(--on-go)}
+.btn.go.off{background:var(--panel2);color:var(--muted)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--muted);font-weight:600}
+.btn.dashed{border-style:dashed;color:var(--primary)}
+.btn.danger-text{background:transparent;border-color:var(--line);color:var(--danger);font-weight:600}
+.btn.danger{background:var(--danger);color:#fff}
+.btns{display:flex;gap:8px}
+.btns .btn{margin-top:14px}
+.btns .wide{flex:2}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line);background:var(--panel);border-radius:999px;
+  padding:8px 14px;font-size:15px;font-weight:600;
+}
+
+/* score tiles: the hero */
+.tiles{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.tile{
+  display:flex;align-items:center;gap:12px;background:var(--panel);
+  border:1px solid var(--line);border-radius:16px;padding:12px 14px 12px 12px;
+}
+.tile.lead{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c)}
+.strip{flex:none;width:10px;height:44px;border-radius:6px;background:var(--c)}
+.tile .name{font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:5px;border-radius:5px;background:var(--panel2);margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:5px;background:var(--c)}
+.score{text-align:right;flex:none}
+.num{
+  display:block;font-size:36px;font-weight:800;line-height:1;letter-spacing:-0.02em;
+  font-variant-numeric:tabular-nums;
+  color:color-mix(in srgb, var(--c) 68%, var(--text));
+}
+.delta{display:block;font-size:13px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+
+/* entry */
+.entry-row .pname{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flag{
+  flex:none;width:46px;height:48px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel2);color:var(--muted);font-size:20px;
+}
+.flag.on{background:var(--flag);border-color:var(--flag);color:var(--on-flag)}
+.sign{color:var(--primary)}
+.score-in{width:84px;flex:none;text-align:center;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;padding:0 6px}
+.note{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--panel2);font-size:15px}
+.note.warn{background:var(--warn-bg);color:var(--warn)}
+
+/* banner */
+.banner{background:var(--panel);border:2px solid var(--go);border-radius:16px;padding:18px;margin-top:20px}
+.banner .big{font-size:24px;font-weight:800;margin:0;color:var(--go)}
+
+/* rounds history */
+.rounds{display:flex;flex-direction:column;gap:6px}
+.round{display:flex;align-items:flex-start;gap:10px;background:var(--panel);border-radius:12px;padding:10px 10px 10px 12px}
+.round .n{font-weight:800;color:var(--muted);width:24px;flex:none;padding-top:5px}
+.round .vals{flex:1;display:flex;flex-wrap:wrap;gap:4px 14px;padding-top:5px;font-size:15px}
+.round .vals b{font-variant-numeric:tabular-nums}
+.round .vals .dbl{color:var(--danger)}
+.round .vals .fl{color:var(--flag)}
+.x{flex:none;width:34px;height:34px;border-radius:9px;border:none;background:var(--panel2);color:var(--muted);font-size:17px}
+
+/* leaderboard */
+.rank{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.pos{flex:none;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--panel2);color:var(--muted)}
+.rank.first .pos{background:var(--primary);color:var(--on-primary)}
+.rank .name{font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank .meta{font-size:13px;color:var(--muted);margin-top:2px}
+.wins{text-align:right;flex:none}
+.wins .num{font-size:30px;color:var(--text)}
+.wins small{font-size:12px;color:var(--muted)}
+.game-card{background:var(--panel);border-radius:14px;padding:12px 12px 12px 14px;display:flex;gap:10px;align-items:flex-start}
+.game-card .when{font-size:13px;color:var(--muted)}
+.game-card .line{font-size:15px;margin-top:3px;display:flex;flex-wrap:wrap;gap:2px 12px}
+.game-card .w{font-weight:800;color:var(--go)}
+.empty{background:var(--panel);border:1px dashed var(--line);border-radius:16px;padding:22px;margin-top:20px;text-align:center;color:var(--muted)}
+
+/* rules */
+.rules{margin:10px 0 0;padding:0 0 0 20px}
+.rules li{margin:0 0 10px;max-width:68ch}
+.links{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.link{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;color:var(--primary);font-weight:700;text-decoration:none;
+}
+.link span{color:var(--muted);font-weight:400;font-size:13px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.opt:first-of-type{border-top:none}
+.opt select{appearance:none;-webkit-appearance:none;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-weight:700;font-size:16px}
+.switch{position:relative;flex:none;width:52px;height:32px}
+.switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.switch span{position:absolute;inset:0;border-radius:999px;background:var(--panel2);border:1px solid var(--line);pointer-events:none}
+.switch span::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--muted)}
+.switch input:checked + span{background:var(--go);border-color:var(--go)}
+.switch input:checked + span::after{left:23px;background:#fff}
+.switch input:focus-visible + span{outline:3px solid var(--primary);outline-offset:2px}
+
+/* tabs */
+.tabs{
+  position:fixed;left:0;right:0;bottom:0;z-index:10;
+  background:var(--panel);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.tabs-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.tab{
+  border:none;background:none;padding:10px 4px 12px;font-size:13px;font-weight:600;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.tab svg{width:24px;height:24px}
+.tab[aria-current="page"]{color:var(--primary)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:20;background:rgba(5,8,14,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.modal[hidden]{display:none}
+.sheet{background:var(--panel);border-radius:18px;padding:18px;width:100%;max-width:480px}
+.sheet p{margin:0 0 4px;font-size:17px;font-weight:600}
+
+.io-area{height:auto;min-height:96px;padding:12px 14px;font-size:13px;line-height:1.4;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+
+@media (prefers-reduced-motion:no-preference){
+  .bar i{transition:width .35s ease}
+  .flag,.btn,.chip{transition:background-color .15s ease,color .15s ease}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true">
+  <div class="sheet">
+    <p id="modal-text"></p>
+    <div class="btns">
+      <button class="btn ghost" data-action="modal-no" id="modal-no"></button>
+      <button class="btn danger wide" data-action="modal-yes" id="modal-yes"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var KEY = "skyjo:v1";
+var LANGS = { fr:"Français", en:"English", de:"Deutsch", es:"Español", it:"Italiano" };
+var LINK_OFFICIAL = "https://magilano.com/pages/download";
+var LINK_GAME = "https://magilano.com/products/skyjo";
+var LINK_FR = "https://www.regledujeu.fr/regle-du-skyjo/";
+
+var I18N = {
+fr:{
+  tagline:"Le plus petit score gagne, fin à {n} points",
+  tabGame:"Partie", tabBoard:"Classement", tabRules:"Règles",
+  setupTitle:"Qui joue ?", setupHint:"De 2 à 8 joueurs.", playerN:"Joueur {n}",
+  addPlayer:"Ajouter un joueur", remove:"Retirer", regulars:"Joueurs habituels",
+  startGame:"Commencer la partie",
+  enterRound:"Saisir la manche {n}", roundN:"Manche {n}",
+  roundHint:"Le total des cartes de chacun, puis touche le drapeau de celui qui a retourné toutes ses cartes en premier.",
+  closerAria:"{name} a terminé la manche", flipSign:"Changer le signe",
+  doubledNote:"{name} a terminé sans avoir le plus petit score : {raw} devient {final}.",
+  missing:"Il manque un score ou le drapeau.",
+  cancel:"Annuler", saveRound:"Valider la manche",
+  roundsPlayed:"Manches jouées", deleteRound:"Supprimer la manche {n}", confirmDeleteRound:"Supprimer la manche {n} ?",
+  wins:"{name} gagne", tie:"Égalité : {names}",
+  limitReached:"Quelqu'un a atteint {n} points. Tu peux encore corriger la dernière manche avant d'enregistrer.",
+  recordGame:"Enregistrer au classement",
+  finishNow:"Terminer la partie maintenant", confirmFinish:"Terminer maintenant et enregistrer les scores actuels au classement ?",
+  abandon:"Abandonner la partie", confirmAbandon:"Abandonner la partie en cours ? Elle ne sera pas comptée au classement.",
+  confirmYes:"Confirmer",
+  boardEmpty:"Aucune partie terminée pour l'instant. Enregistre une partie pour voir le classement.",
+  game1:"partie", gameN:"parties",
+  meta:"{games}, {rate} % de victoires, moyenne {avg}, record {best}",
+  winsLabel:"victoires",
+  recentGames:"Dernières parties", roundsCount:"{n} manches",
+  deleteGame:"Supprimer cette partie", confirmDeleteGame:"Supprimer cette partie du classement ?",
+  resetBoard:"Effacer le classement", confirmReset:"Effacer toutes les parties enregistrées ?",
+  boardNote:"Le classement est enregistré sur cet appareil.",
+  rulesTitle:"L'essentiel des règles",
+  rules:[
+    "Chaque joueur a 12 cartes face cachée, en 4 colonnes de 3, et en retourne 2 au début de la manche.",
+    "À ton tour, prends la carte de la défausse ou pioche : échange-la avec une de tes cartes, ou défausse-la et retourne une carte cachée.",
+    "Les cartes vont de -2 à 12 : on cherche le total le plus bas.",
+    "Trois cartes identiques dans une même colonne : la colonne entière part à la défausse.",
+    "Quand un joueur a retourné toutes ses cartes, les autres jouent un dernier tour. Si celui qui a terminé n'a pas strictement le plus petit score, ses points sont doublés (seulement s'ils sont positifs).",
+    "La partie s'arrête dès qu'un joueur atteint 100 points : le plus petit total gagne."
+  ],
+  linksTitle:"Pour aller plus loin",
+  linkOfficial:"Règles officielles", linkOfficialSub:"Téléchargements Magilano",
+  linkGame:"Page du jeu", linkGameSub:"magilano.com",
+  linkFr:"Règles détaillées", linkFrSub:"regledujeu.fr",
+  optionsTitle:"Réglages de partie",
+  optLimit:"Fin de partie à", optDouble:"Doubler le score de celui qui termine s'il n'a pas le plus petit",
+  optNote:"S'applique à la prochaine partie.", language:"Langue"
+},
+en:{
+  tagline:"Lowest score wins, game ends at {n} points",
+  tabGame:"Game", tabBoard:"Leaderboard", tabRules:"Rules",
+  setupTitle:"Who's playing?", setupHint:"2 to 8 players.", playerN:"Player {n}",
+  addPlayer:"Add a player", remove:"Remove", regulars:"Regulars",
+  startGame:"Start the game",
+  enterRound:"Enter round {n}", roundN:"Round {n}",
+  roundHint:"Each player's card total, then tap the flag of whoever revealed all their cards first.",
+  closerAria:"{name} ended the round", flipSign:"Change sign",
+  doubledNote:"{name} ended without the lowest score: {raw} becomes {final}.",
+  missing:"A score or the flag is still missing.",
+  cancel:"Cancel", saveRound:"Save round",
+  roundsPlayed:"Rounds played", deleteRound:"Delete round {n}", confirmDeleteRound:"Delete round {n}?",
+  wins:"{name} wins", tie:"Tie: {names}",
+  limitReached:"Someone reached {n} points. You can still fix the last round before saving.",
+  recordGame:"Save to leaderboard",
+  finishNow:"End the game now", confirmFinish:"End now and save the current scores to the leaderboard?",
+  abandon:"Abandon the game", confirmAbandon:"Abandon the current game? It won't count on the leaderboard.",
+  confirmYes:"Confirm",
+  boardEmpty:"No finished games yet. Save a game to see the leaderboard.",
+  game1:"game", gameN:"games",
+  meta:"{games}, {rate}% wins, average {avg}, best {best}",
+  winsLabel:"wins",
+  recentGames:"Recent games", roundsCount:"{n} rounds",
+  deleteGame:"Delete this game", confirmDeleteGame:"Remove this game from the leaderboard?",
+  resetBoard:"Clear leaderboard", confirmReset:"Delete every saved game?",
+  boardNote:"The leaderboard is stored on this device.",
+  rulesTitle:"Rules in a nutshell",
+  rules:[
+    "Each player has 12 face-down cards in 4 columns of 3, and flips 2 at the start of the round.",
+    "On your turn, take the top discard or draw a card: swap it with one of yours, or discard it and flip a hidden card.",
+    "Cards go from -2 to 12: you want the lowest total.",
+    "Three identical cards in one column: the whole column is discarded.",
+    "When a player has flipped all their cards, everyone else plays one last turn. If that player doesn't have strictly the lowest score, their points are doubled (only when positive).",
+    "The game ends as soon as a player reaches 100 points: lowest total wins."
+  ],
+  linksTitle:"Learn more",
+  linkOfficial:"Official rules", linkOfficialSub:"Magilano downloads",
+  linkGame:"Game page", linkGameSub:"magilano.com",
+  linkFr:"Detailed rules (French)", linkFrSub:"regledujeu.fr",
+  optionsTitle:"Game options",
+  optLimit:"Game ends at", optDouble:"Double the finisher's score if it isn't the lowest",
+  optNote:"Applies from the next game.", language:"Language"
+},
+de:{
+  tagline:"Die wenigsten Punkte gewinnen, Ende bei {n} Punkten",
+  tabGame:"Spiel", tabBoard:"Rangliste", tabRules:"Regeln",
+  setupTitle:"Wer spielt mit?", setupHint:"2 bis 8 Spieler.", playerN:"Spieler {n}",
+  addPlayer:"Spieler hinzufügen", remove:"Entfernen", regulars:"Stammspieler",
+  startGame:"Spiel starten",
+  enterRound:"Runde {n} eintragen", roundN:"Runde {n}",
+  roundHint:"Die Kartensumme jedes Spielers, dann die Fahne bei dem, der zuerst alle Karten aufgedeckt hat.",
+  closerAria:"{name} hat die Runde beendet", flipSign:"Vorzeichen ändern",
+  doubledNote:"{name} hat beendet, ohne die wenigsten Punkte zu haben: aus {raw} wird {final}.",
+  missing:"Es fehlt noch eine Punktzahl oder die Fahne.",
+  cancel:"Abbrechen", saveRound:"Runde speichern",
+  roundsPlayed:"Gespielte Runden", deleteRound:"Runde {n} löschen", confirmDeleteRound:"Runde {n} löschen?",
+  wins:"{name} gewinnt", tie:"Gleichstand: {names}",
+  limitReached:"Jemand hat {n} Punkte erreicht. Die letzte Runde lässt sich vor dem Speichern noch korrigieren.",
+  recordGame:"In Rangliste speichern",
+  finishNow:"Spiel jetzt beenden", confirmFinish:"Jetzt beenden und die aktuellen Punkte in die Rangliste übernehmen?",
+  abandon:"Spiel abbrechen", confirmAbandon:"Laufendes Spiel abbrechen? Es zählt nicht für die Rangliste.",
+  confirmYes:"Bestätigen",
+  boardEmpty:"Noch keine beendeten Spiele. Speichere ein Spiel, um die Rangliste zu sehen.",
+  game1:"Spiel", gameN:"Spiele",
+  meta:"{games}, {rate} % Siege, Schnitt {avg}, Bestwert {best}",
+  winsLabel:"Siege",
+  recentGames:"Letzte Spiele", roundsCount:"{n} Runden",
+  deleteGame:"Dieses Spiel löschen", confirmDeleteGame:"Dieses Spiel aus der Rangliste entfernen?",
+  resetBoard:"Rangliste löschen", confirmReset:"Alle gespeicherten Spiele löschen?",
+  boardNote:"Die Rangliste wird auf diesem Gerät gespeichert.",
+  rulesTitle:"Die Regeln in Kürze",
+  rules:[
+    "Jeder Spieler hat 12 verdeckte Karten in 4 Spalten zu je 3 und deckt zu Rundenbeginn 2 davon auf.",
+    "Wer dran ist, nimmt die oberste Karte vom Ablagestapel oder zieht: gegen eine eigene Karte tauschen, oder ablegen und eine verdeckte Karte aufdecken.",
+    "Die Karten reichen von -2 bis 12: Ziel ist die niedrigste Summe.",
+    "Drei gleiche Karten in einer Spalte: die ganze Spalte kommt auf den Ablagestapel.",
+    "Hat ein Spieler alle Karten aufgedeckt, haben die anderen noch einen letzten Zug. Hat er nicht allein die wenigsten Punkte, werden seine Punkte verdoppelt (nur wenn positiv).",
+    "Das Spiel endet, sobald jemand 100 Punkte erreicht: die niedrigste Summe gewinnt."
+  ],
+  linksTitle:"Mehr dazu",
+  linkOfficial:"Offizielle Spielanleitung", linkOfficialSub:"Magilano Downloads",
+  linkGame:"Spielseite", linkGameSub:"magilano.com",
+  linkFr:"Ausführliche Regeln (Französisch)", linkFrSub:"regledujeu.fr",
+  optionsTitle:"Spieloptionen",
+  optLimit:"Spielende bei", optDouble:"Punkte des Beenders verdoppeln, wenn er nicht die wenigsten hat",
+  optNote:"Gilt ab dem nächsten Spiel.", language:"Sprache"
+},
+es:{
+  tagline:"Gana la puntuación más baja, fin a los {n} puntos",
+  tabGame:"Partida", tabBoard:"Clasificación", tabRules:"Reglas",
+  setupTitle:"¿Quién juega?", setupHint:"De 2 a 8 jugadores.", playerN:"Jugador {n}",
+  addPlayer:"Añadir jugador", remove:"Quitar", regulars:"Habituales",
+  startGame:"Empezar la partida",
+  enterRound:"Anotar la ronda {n}", roundN:"Ronda {n}",
+  roundHint:"El total de cartas de cada uno y luego toca la bandera de quien descubrió todas sus cartas primero.",
+  closerAria:"{name} cerró la ronda", flipSign:"Cambiar signo",
+  doubledNote:"{name} cerró sin tener la puntuación más baja: {raw} pasa a {final}.",
+  missing:"Falta una puntuación o la bandera.",
+  cancel:"Cancelar", saveRound:"Guardar ronda",
+  roundsPlayed:"Rondas jugadas", deleteRound:"Borrar ronda {n}", confirmDeleteRound:"¿Borrar la ronda {n}?",
+  wins:"Gana {name}", tie:"Empate: {names}",
+  limitReached:"Alguien llegó a {n} puntos. Aún puedes corregir la última ronda antes de guardar.",
+  recordGame:"Guardar en la clasificación",
+  finishNow:"Terminar la partida ahora", confirmFinish:"¿Terminar ahora y guardar las puntuaciones actuales en la clasificación?",
+  abandon:"Abandonar la partida", confirmAbandon:"¿Abandonar la partida en curso? No contará en la clasificación.",
+  confirmYes:"Confirmar",
+  boardEmpty:"Aún no hay partidas terminadas. Guarda una partida para ver la clasificación.",
+  game1:"partida", gameN:"partidas",
+  meta:"{games}, {rate} % victorias, media {avg}, mejor {best}",
+  winsLabel:"victorias",
+  recentGames:"Últimas partidas", roundsCount:"{n} rondas",
+  deleteGame:"Borrar esta partida", confirmDeleteGame:"¿Quitar esta partida de la clasificación?",
+  resetBoard:"Borrar clasificación", confirmReset:"¿Borrar todas las partidas guardadas?",
+  boardNote:"La clasificación se guarda en este dispositivo.",
+  rulesTitle:"Las reglas en resumen",
+  rules:[
+    "Cada jugador tiene 12 cartas boca abajo en 4 columnas de 3 y descubre 2 al empezar la ronda.",
+    "En tu turno, toma la carta del descarte o roba: cámbiala por una de las tuyas, o descártala y descubre una carta oculta.",
+    "Las cartas van de -2 a 12: se busca el total más bajo.",
+    "Tres cartas iguales en una columna: la columna entera va al descarte.",
+    "Cuando un jugador ha descubierto todas sus cartas, los demás juegan un último turno. Si ese jugador no tiene estrictamente la puntuación más baja, sus puntos se doblan (solo si son positivos).",
+    "La partida termina en cuanto un jugador llega a 100 puntos: gana el total más bajo."
+  ],
+  linksTitle:"Para saber más",
+  linkOfficial:"Reglas oficiales", linkOfficialSub:"Descargas de Magilano",
+  linkGame:"Página del juego", linkGameSub:"magilano.com",
+  linkFr:"Reglas detalladas (francés)", linkFrSub:"regledujeu.fr",
+  optionsTitle:"Opciones de partida",
+  optLimit:"Fin de partida a", optDouble:"Doblar la puntuación de quien cierra si no es la más baja",
+  optNote:"Se aplica a la próxima partida.", language:"Idioma"
+},
+it:{
+  tagline:"Vince il punteggio più basso, fine a {n} punti",
+  tabGame:"Partita", tabBoard:"Classifica", tabRules:"Regole",
+  setupTitle:"Chi gioca?", setupHint:"Da 2 a 8 giocatori.", playerN:"Giocatore {n}",
+  addPlayer:"Aggiungi giocatore", remove:"Rimuovi", regulars:"Giocatori abituali",
+  startGame:"Inizia la partita",
+  enterRound:"Inserisci il round {n}", roundN:"Round {n}",
+  roundHint:"Il totale delle carte di ognuno, poi tocca la bandierina di chi ha scoperto per primo tutte le carte.",
+  closerAria:"{name} ha chiuso il round", flipSign:"Cambia segno",
+  doubledNote:"{name} ha chiuso senza il punteggio più basso: {raw} diventa {final}.",
+  missing:"Manca un punteggio o la bandierina.",
+  cancel:"Annulla", saveRound:"Salva round",
+  roundsPlayed:"Round giocati", deleteRound:"Elimina round {n}", confirmDeleteRound:"Eliminare il round {n}?",
+  wins:"Vince {name}", tie:"Pareggio: {names}",
+  limitReached:"Qualcuno ha raggiunto {n} punti. Puoi ancora correggere l'ultimo round prima di salvare.",
+  recordGame:"Salva in classifica",
+  finishNow:"Termina la partita ora", confirmFinish:"Terminare ora e salvare i punteggi attuali in classifica?",
+  abandon:"Abbandona la partita", confirmAbandon:"Abbandonare la partita in corso? Non conterà in classifica.",
+  confirmYes:"Conferma",
+  boardEmpty:"Nessuna partita conclusa. Salva una partita per vedere la classifica.",
+  game1:"partita", gameN:"partite",
+  meta:"{games}, {rate}% vittorie, media {avg}, record {best}",
+  winsLabel:"vittorie",
+  recentGames:"Ultime partite", roundsCount:"{n} round",
+  deleteGame:"Elimina questa partita", confirmDeleteGame:"Rimuovere questa partita dalla classifica?",
+  resetBoard:"Cancella classifica", confirmReset:"Eliminare tutte le partite salvate?",
+  boardNote:"La classifica è salvata su questo dispositivo.",
+  rulesTitle:"Le regole in breve",
+  rules:[
+    "Ogni giocatore ha 12 carte coperte in 4 colonne da 3 e ne scopre 2 all'inizio del round.",
+    "Al tuo turno prendi la carta degli scarti o pesca: scambiala con una delle tue, oppure scartala e scopri una carta coperta.",
+    "Le carte vanno da -2 a 12: si cerca il totale più basso.",
+    "Tre carte uguali nella stessa colonna: l'intera colonna va negli scarti.",
+    "Quando un giocatore ha scoperto tutte le carte, gli altri giocano un ultimo turno. Se quel giocatore non ha strettamente il punteggio più basso, i suoi punti raddoppiano (solo se positivi).",
+    "La partita finisce appena un giocatore raggiunge 100 punti: vince il totale più basso."
+  ],
+  linksTitle:"Per saperne di più",
+  linkOfficial:"Regole ufficiali", linkOfficialSub:"Download Magilano",
+  linkGame:"Pagina del gioco", linkGameSub:"magilano.com",
+  linkFr:"Regole dettagliate (francese)", linkFrSub:"regledujeu.fr",
+  optionsTitle:"Opzioni di gioco",
+  optLimit:"Fine partita a", optDouble:"Raddoppia il punteggio di chi chiude se non è il più basso",
+  optNote:"Vale dalla prossima partita.", language:"Lingua"
+}
+};
+
+var EXTRA = {
+fr:{ backupTitle:"Sauvegarde", backupNote:"Exporte tes parties pour les transférer sur un autre appareil, ou les remettre après avoir vidé le navigateur.",
+     exportBtn:"Exporter", importBtn:"Importer", copied:"Copié dans le presse-papiers.",
+     pasteHere:"Colle ici la sauvegarde, puis touche Importer.", imported:"{n} parties ajoutées.", importError:"Sauvegarde illisible." },
+en:{ backupTitle:"Backup", backupNote:"Export your games to move them to another device, or restore them after clearing the browser.",
+     exportBtn:"Export", importBtn:"Import", copied:"Copied to the clipboard.",
+     pasteHere:"Paste the backup here, then tap Import.", imported:"{n} games added.", importError:"Backup couldn't be read." },
+de:{ backupTitle:"Sicherung", backupNote:"Exportiere deine Spiele, um sie auf ein anderes Gerät zu übertragen oder nach dem Leeren des Browsers zurückzuholen.",
+     exportBtn:"Exportieren", importBtn:"Importieren", copied:"In die Zwischenablage kopiert.",
+     pasteHere:"Sicherung hier einfügen, dann auf Importieren tippen.", imported:"{n} Spiele hinzugefügt.", importError:"Sicherung nicht lesbar." },
+es:{ backupTitle:"Copia de seguridad", backupNote:"Exporta tus partidas para pasarlas a otro dispositivo o recuperarlas tras borrar el navegador.",
+     exportBtn:"Exportar", importBtn:"Importar", copied:"Copiado al portapapeles.",
+     pasteHere:"Pega aquí la copia y toca Importar.", imported:"{n} partidas añadidas.", importError:"No se pudo leer la copia." },
+it:{ backupTitle:"Backup", backupNote:"Esporta le partite per spostarle su un altro dispositivo o ripristinarle dopo aver svuotato il browser.",
+     exportBtn:"Esporta", importBtn:"Importa", copied:"Copiato negli appunti.",
+     pasteHere:"Incolla qui il backup, poi tocca Importa.", imported:"{n} partite aggiunte.", importError:"Backup illeggibile." }
+};
+Object.keys(EXTRA).forEach(function(k){ Object.assign(I18N[k], EXTRA[k]); });
+
+/* ---------- state ---------- */
+function detectLang(){
+  try{
+    var l = (navigator.language || "en").slice(0,2).toLowerCase();
+    return LANGS[l] ? l : "en";
+  }catch(e){ return "en"; }
+}
+function defaults(){
+  return { lang:detectLang(), view:"game", settings:{limit:100, double:true},
+           setup:["",""], game:null, entry:null, history:[] };
+}
+function load(){
+  var d = defaults();
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){
+      var p = JSON.parse(raw) || {};
+      for(var k in p){ if(Object.prototype.hasOwnProperty.call(p,k)) d[k] = p[k]; }
+      d.settings = Object.assign({limit:100, double:true}, p.settings || {});
+      if(!Array.isArray(d.history)) d.history = [];
+      if(!Array.isArray(d.setup) || d.setup.length < 2) d.setup = ["",""];
+      if(!LANGS[d.lang]) d.lang = detectLang();
+    }
+  }catch(e){}
+  return d;
+}
+var S = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- helpers ---------- */
+function t(key, vars){
+  var dict = I18N[S.lang] || I18N.en;
+  var s = dict[key] != null ? dict[key] : (I18N.en[key] != null ? I18N.en[key] : key);
+  if(typeof s === "string" && vars){
+    s = s.replace(/\{(\w+)\}/g, function(_, k){ return vars[k] != null ? vars[k] : ""; });
+  }
+  return s;
+}
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function $(sel){ return document.querySelector(sel); }
+function norm(n){ return String(n).trim().toLowerCase(); }
+
+var STOPS = [[0,[63,168,222]],[0.35,[76,175,80]],[0.7,[242,194,48]],[1,[226,75,58]]];
+function ramp(r){
+  var x = Math.max(0, Math.min(1, r));
+  for(var i=0;i<STOPS.length-1;i++){
+    var a=STOPS[i], b=STOPS[i+1];
+    if(x>=a[0] && x<=b[0]){
+      var k=(x-a[0])/(b[0]-a[0]);
+      var c=a[1].map(function(v,j){ return Math.round(v+(b[1][j]-v)*k); });
+      return "rgb("+c[0]+","+c[1]+","+c[2]+")";
+    }
+  }
+  return "rgb(226,75,58)";
+}
+
+function resolveRound(round, players, dbl){
+  var raw = {}, fin = {};
+  players.forEach(function(p){ raw[p.id] = Number(round.scores[p.id] || 0); fin[p.id] = raw[p.id]; });
+  var doubled = false, c = round.closer;
+  if(dbl && c != null && raw[c] != null){
+    var mine = raw[c];
+    var tied = players.some(function(p){ return p.id !== c && raw[p.id] <= mine; });
+    if(mine > 0 && tied){ doubled = true; fin[c] = mine * 2; }
+  }
+  return { raw:raw, final:fin, doubled:doubled };
+}
+function calc(g){
+  var resolved = g.rounds.map(function(r){ return resolveRound(r, g.players, g.double); });
+  var totals = {};
+  g.players.forEach(function(p){
+    totals[p.id] = resolved.reduce(function(s,r){ return s + (r.final[p.id] || 0); }, 0);
+  });
+  return { resolved:resolved, totals:totals };
+}
+
+/* ---------- modal ---------- */
+var pendingConfirm = null;
+function askConfirm(text, fn){
+  pendingConfirm = fn;
+  $("#modal-text").textContent = text;
+  $("#modal-no").textContent = t("cancel");
+  $("#modal-yes").textContent = t("confirmYes");
+  $("#modal").hidden = false;
+  $("#modal-yes").focus();
+}
+function closeModal(){ $("#modal").hidden = true; pendingConfirm = null; }
+
+/* ---------- icons ---------- */
+var ICON = {
+  game:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="5" height="7" rx="1.2"/><rect x="9.5" y="4" width="5" height="7" rx="1.2"/><rect x="16" y="4" width="5" height="7" rx="1.2"/><rect x="3" y="13" width="5" height="7" rx="1.2"/><rect x="9.5" y="13" width="5" height="7" rx="1.2"/><rect x="16" y="13" width="5" height="7" rx="1.2"/></svg>',
+  board:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="11" width="5" height="9" rx="1"/><rect x="9.5" y="5" width="5" height="15" rx="1"/><rect x="16" y="14" width="5" height="6" rx="1"/></svg>',
+  rules:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M5 4h10l4 4v12H5z"/><path d="M9 11h6M9 15h6"/></svg>'
+};
+function logo(){
+  var cols = ["#17457E","#3FA8DE","#4CAF50","#F2C230","#4CAF50","#E24B3A","#3FA8DE","#F2C230","#17457E","#4CAF50","#E24B3A","#3FA8DE"];
+  var s = '<svg class="logo" width="40" height="34" viewBox="0 0 40 34" aria-hidden="true">';
+  for(var i=0;i<12;i++){
+    var c=i%4, r=Math.floor(i/4);
+    s += '<rect x="'+(c*10)+'" y="'+(r*11.5)+'" width="8.5" height="10.5" rx="2" fill="'+cols[i]+'"/>';
+  }
+  return s + "</svg>";
+}
+
+/* ---------- views ---------- */
+function knownNames(){
+  var count = {}, disp = {};
+  S.history.forEach(function(h){
+    h.players.forEach(function(p){
+      var k = norm(p.name);
+      count[k] = (count[k] || 0) + 1;
+      if(!disp[k]) disp[k] = p.name;
+    });
+  });
+  return Object.keys(count).sort(function(a,b){ return count[b]-count[a]; }).map(function(k){ return disp[k]; });
+}
+
+function viewSetup(){
+  var taken = S.setup.map(norm);
+  var known = knownNames().filter(function(n){ return taken.indexOf(norm(n)) < 0; }).slice(0,16);
+  var h = '<h2 class="h2">'+esc(t("setupTitle"))+'</h2><p class="muted small" style="margin:0 0 14px">'+esc(t("setupHint"))+'</p><div class="stack">';
+  S.setup.forEach(function(name,i){
+    h += '<div class="row"><span class="seat">'+(i+1)+'</span>'
+      + '<input class="input grow" data-setup="'+i+'" value="'+esc(name)+'" placeholder="'+esc(t("playerN",{n:i+1}))+'" autocomplete="off" autocapitalize="words" enterkeyhint="next" maxlength="24">'
+      + (S.setup.length > 2 ? '<button class="icon-btn" data-action="setup-remove" data-i="'+i+'" aria-label="'+esc(t("remove"))+'">×</button>' : '')
+      + '</div>';
+  });
+  h += '</div>';
+  if(S.setup.length < 8) h += '<button class="btn ghost dashed" data-action="setup-add">'+esc(t("addPlayer"))+'</button>';
+  if(known.length){
+    h += '<p class="label">'+esc(t("regulars"))+'</p><div class="chips">';
+    known.forEach(function(n){ h += '<button class="chip" data-action="setup-chip" data-name="'+esc(n)+'">'+esc(n)+'</button>'; });
+    h += '</div>';
+  }
+  h += '<button class="btn primary" data-action="start" style="margin-top:24px">'+esc(t("startGame"))+'</button>';
+  return h;
+}
+
+function viewGame(){
+  var g = S.game;
+  var c = calc(g), totals = c.totals, resolved = c.resolved;
+  var sorted = g.players.slice().sort(function(a,b){ return totals[a.id]-totals[b.id]; });
+  var over = g.rounds.length > 0 && g.players.some(function(p){ return totals[p.id] >= g.limit; });
+  var best = totals[sorted[0].id];
+  var winners = sorted.filter(function(p){ return totals[p.id] === best; });
+  var last = resolved[resolved.length-1];
+  var h = "";
+
+  if(over){
+    h += '<section class="banner"><p class="big">'
+      + esc(winners.length > 1 ? t("tie",{names:winners.map(function(w){return w.name;}).join(", ")}) : t("wins",{name:winners[0].name}))
+      + '</p><p class="muted small" style="margin:6px 0 0">'+esc(t("limitReached",{n:g.limit}))+'</p>'
+      + '<button class="btn go" data-action="record">'+esc(t("recordGame"))+'</button></section>';
+  }
+
+  h += '<div class="tiles">';
+  sorted.forEach(function(p,i){
+    var tot = totals[p.id];
+    var pct = Math.max(0, Math.min(100, tot / g.limit * 100));
+    var d = last ? last.final[p.id] : null;
+    h += '<div class="tile'+(i===0 && g.rounds.length ? ' lead' : '')+'" style="--c:'+ramp(tot/g.limit)+'">'
+      + '<span class="strip"></span>'
+      + '<div class="grow"><div class="name">'+esc(p.name)+'</div><div class="bar"><i style="width:'+pct+'%"></i></div></div>'
+      + '<div class="score"><span class="num">'+tot+'</span>'
+      + (d != null ? '<span class="delta">'+(d > 0 ? "+" : "")+d+'</span>' : '')
+      + '</div></div>';
+  });
+  h += '</div>';
+
+  if(S.entry){
+    var n = g.rounds.length + 1;
+    h += '<section class="panel" id="entry"><h2 class="h3">'+esc(t("roundN",{n:n}))+'</h2>'
+      + '<p class="muted small" style="margin:0 0 14px">'+esc(t("roundHint"))+'</p><div class="stack">';
+    g.players.forEach(function(p){
+      var v = S.entry.scores[p.id] || "";
+      var on = S.entry.closer === p.id;
+      h += '<div class="row entry-row">'
+        + '<button class="flag'+(on?' on':'')+'" data-action="flag" data-id="'+p.id+'" aria-pressed="'+on+'" aria-label="'+esc(t("closerAria",{name:p.name}))+'">⚑</button>'
+        + '<span class="grow pname">'+esc(p.name)+'</span>'
+        + '<button class="icon-btn sign" data-action="sign" data-id="'+p.id+'" aria-label="'+esc(t("flipSign"))+'">±</button>'
+        + '<input class="input score-in" data-score="'+p.id+'" inputmode="numeric" value="'+esc(v)+'" placeholder="0" autocomplete="off" enterkeyhint="next" aria-label="'+esc(p.name)+'">'
+        + '</div>';
+    });
+    h += '</div><p class="note" id="entry-note" hidden></p>'
+      + '<div class="btns"><button class="btn ghost" data-action="cancel-entry">'+esc(t("cancel"))+'</button>'
+      + '<button class="btn go wide" data-action="save-entry" id="save-round">'+esc(t("saveRound"))+'</button></div></section>';
+  } else if(!over){
+    h += '<button class="btn primary" data-action="open-entry" style="margin-top:18px">'+esc(t("enterRound",{n:g.rounds.length+1}))+'</button>';
+  }
+
+  if(g.rounds.length){
+    h += '<p class="label">'+esc(t("roundsPlayed"))+'</p><div class="rounds">';
+    for(var i=g.rounds.length-1;i>=0;i--){
+      var r = g.rounds[i], res = resolved[i];
+      h += '<div class="round"><span class="n">'+(i+1)+'</span><div class="vals">';
+      g.players.forEach(function(p){
+        var isC = r.closer === p.id, dbl = isC && res.doubled;
+        h += '<span><span class="muted">'+esc(p.name.slice(0,10))+'</span> <b'+(dbl?' class="dbl"':'')+'>'+res.final[p.id]+'</b>'
+          + (isC ? ' <span class="fl" aria-hidden="true">⚑</span>' : '') + '</span>';
+      });
+      h += '</div><button class="x" data-action="del-round" data-i="'+i+'" aria-label="'+esc(t("deleteRound",{n:i+1}))+'">×</button></div>';
+    }
+    h += '</div>';
+  }
+
+  if(!over && g.rounds.length) h += '<button class="btn ghost" data-action="finish-now" style="margin-top:22px">'+esc(t("finishNow"))+'</button>';
+  h += '<button class="btn danger-text" data-action="abandon"'+(!over && g.rounds.length ? '' : ' style="margin-top:22px"')+'>'+esc(t("abandon"))+'</button>';
+  return h;
+}
+
+function stats(){
+  var m = {};
+  S.history.forEach(function(h){
+    var wins = h.winners.map(norm);
+    h.players.forEach(function(p){
+      var k = norm(p.name);
+      var s = m[k] || (m[k] = {name:p.name, games:0, wins:0, sum:0, best:Infinity});
+      s.games++; s.sum += p.total; s.best = Math.min(s.best, p.total);
+      if(wins.indexOf(k) >= 0) s.wins++;
+    });
+  });
+  return Object.keys(m).map(function(k){
+    var s = m[k]; s.rate = s.wins / s.games; s.avg = s.sum / s.games; return s;
+  }).sort(function(a,b){
+    return (b.wins - a.wins) || (b.rate - a.rate) || (a.avg - b.avg);
+  });
+}
+
+function viewBoard(){
+  var h = '<h2 class="h2">'+esc(t("tabBoard"))+'</h2>';
+  if(!S.history.length) return h + '<div class="empty">'+esc(t("boardEmpty"))+'</div>';
+  var st = stats();
+  h += '<div class="stack" style="margin-top:14px">';
+  st.forEach(function(s,i){
+    var games = s.games + " " + (s.games === 1 ? t("game1") : t("gameN"));
+    h += '<div class="rank'+(i===0?' first':'')+'"><span class="pos">'+(i+1)+'</span>'
+      + '<div class="grow"><div class="name">'+esc(s.name)+'</div><div class="meta">'
+      + esc(t("meta",{games:games, rate:Math.round(s.rate*100), avg:Math.round(s.avg), best:s.best}))
+      + '</div></div><div class="wins"><span class="num">'+s.wins+'</span><small>'+esc(t("winsLabel"))+'</small></div></div>';
+  });
+  h += '</div>';
+
+  var fmt;
+  try{ fmt = new Intl.DateTimeFormat(S.lang, {day:"numeric", month:"short", year:"numeric"}); }catch(e){ fmt = null; }
+  h += '<p class="label">'+esc(t("recentGames"))+'</p><div class="stack">';
+  S.history.slice(0,15).forEach(function(g){
+    var wins = g.winners.map(norm);
+    var ps = g.players.slice().sort(function(a,b){ return a.total-b.total; });
+    h += '<div class="game-card"><div class="grow"><div class="when">'
+      + esc((fmt ? fmt.format(new Date(g.date)) : new Date(g.date).toLocaleDateString()) + ", " + t("roundsCount",{n:g.rounds}))
+      + '</div><div class="line">';
+    ps.forEach(function(p){
+      var w = wins.indexOf(norm(p.name)) >= 0;
+      h += '<span'+(w?' class="w"':'')+'>'+esc(p.name)+' '+p.total+'</span>';
+    });
+    h += '</div></div><button class="x" data-action="del-game" data-id="'+esc(g.id)+'" aria-label="'+esc(t("deleteGame"))+'">×</button></div>';
+  });
+  h += '</div><p class="muted small" style="margin:18px 0 0">'+esc(t("boardNote"))+'</p>'
+    + '<button class="btn danger-text" data-action="reset-board">'+esc(t("resetBoard"))+'</button>';
+  return h;
+}
+
+function viewRules(){
+  var h = '<h2 class="h2">'+esc(t("rulesTitle"))+'</h2><ul class="rules">';
+  t("rules").forEach(function(r){ h += '<li>'+esc(r)+'</li>'; });
+  h += '</ul><p class="label">'+esc(t("linksTitle"))+'</p><div class="links">'
+    + '<a class="link" href="'+LINK_OFFICIAL+'" target="_blank" rel="noopener">'+esc(t("linkOfficial"))+'<span>'+esc(t("linkOfficialSub"))+'</span></a>'
+    + '<a class="link" href="'+LINK_GAME+'" target="_blank" rel="noopener">'+esc(t("linkGame"))+'<span>'+esc(t("linkGameSub"))+'</span></a>'
+    + '<a class="link" href="'+LINK_FR+'" target="_blank" rel="noopener">'+esc(t("linkFr"))+'<span>'+esc(t("linkFrSub"))+'</span></a>'
+    + '</div>';
+
+  var limits = [50,100,150,200];
+  h += '<section class="panel"><h2 class="h3">'+esc(t("optionsTitle"))+'</h2>'
+    + '<div class="opt"><label for="opt-limit">'+esc(t("optLimit"))+'</label><select id="opt-limit">';
+  limits.forEach(function(l){ h += '<option value="'+l+'"'+(S.settings.limit===l?' selected':'')+'>'+l+'</option>'; });
+  h += '</select></div>'
+    + '<div class="opt"><label for="opt-double">'+esc(t("optDouble"))+'</label>'
+    + '<span class="switch"><input type="checkbox" id="opt-double"'+(S.settings.double?' checked':'')+'><span></span></span></div>'
+    + '<p class="muted small" style="margin:6px 0 0">'+esc(t("optNote"))+'</p></section>';
+
+  h += '<section class="panel"><h2 class="h3">'+esc(t("backupTitle"))+'</h2>'
+    + '<p class="muted small" style="margin:0">'+esc(t("backupNote"))+'</p>'
+    + '<div class="btns"><button class="btn ghost" data-action="export">'+esc(t("exportBtn"))+'</button>'
+    + '<button class="btn ghost" data-action="import-open">'+esc(t("importBtn"))+'</button></div>'
+    + '<div id="io" hidden style="margin-top:12px"><textarea class="input io-area" id="io-text" placeholder="'+esc(t("pasteHere"))+'" spellcheck="false" autocomplete="off"></textarea>'
+    + '<button class="btn ghost" data-action="import-run">'+esc(t("importBtn"))+'</button></div>'
+    + '<p class="note" id="io-note" hidden></p></section>';
+  return h;
+}
+
+function render(){
+  document.documentElement.lang = S.lang;
+  var limit = S.game ? S.game.limit : S.settings.limit;
+  var main;
+  if(S.view === "board") main = viewBoard();
+  else if(S.view === "rules") main = viewRules();
+  else main = S.game ? viewGame() : viewSetup();
+
+  var opts = Object.keys(LANGS).map(function(k){
+    return '<option value="'+k+'"'+(k===S.lang?' selected':'')+'>'+k.toUpperCase()+'</option>';
+  }).join("");
+
+  var tabs = [["game","tabGame"],["board","tabBoard"],["rules","tabRules"]].map(function(x){
+    return '<button class="tab" data-action="tab" data-view="'+x[0]+'"'+(S.view===x[0]?' aria-current="page"':'')+'>'+ICON[x[0]]+esc(t(x[1]))+'</button>';
+  }).join("");
+
+  $("#app").innerHTML =
+    '<header class="top">'+logo()+'<div class="brand"><h1>Skyjo</h1><p>'+esc(t("tagline",{n:limit}))+'</p></div>'
+    + '<select class="lang" id="lang" aria-label="'+esc(t("language"))+'">'+opts+'</select></header>'
+    + '<main>'+main+'</main>'
+    + '<nav class="tabs"><div class="tabs-in">'+tabs+'</div></nav>';
+
+  if(S.entry && S.view === "game" && S.game) updateEntryUI(false);
+}
+
+/* ---------- round entry ---------- */
+function entryState(){
+  var g = S.game, e = S.entry;
+  var filled = g.players.every(function(p){ return /^-?\d+$/.test(e.scores[p.id] || ""); });
+  var ready = filled && e.closer != null;
+  var res = null;
+  if(ready){
+    var sc = {};
+    g.players.forEach(function(p){ sc[p.id] = parseInt(e.scores[p.id], 10); });
+    res = resolveRound({scores:sc, closer:e.closer}, g.players, g.double);
+  }
+  return { ready:ready, res:res };
+}
+function updateEntryUI(showMissing){
+  var note = $("#entry-note"), btn = $("#save-round");
+  if(!note || !btn) return;
+  var st = entryState();
+  btn.classList.toggle("off", !st.ready);
+  btn.setAttribute("aria-disabled", String(!st.ready));
+  if(st.ready && st.res.doubled){
+    var c = S.entry.closer;
+    var p = S.game.players.filter(function(x){ return x.id === c; })[0];
+    note.textContent = t("doubledNote",{name:p.name, raw:st.res.raw[c], final:st.res.final[c]});
+    note.className = "note warn"; note.hidden = false;
+  } else if(!st.ready && showMissing){
+    note.textContent = t("missing"); note.className = "note"; note.hidden = false;
+  } else {
+    note.hidden = true;
+  }
+}
+
+/* ---------- backup ---------- */
+function sig(h){
+  return (h.date || 0) + "|" + h.players.map(function(p){ return norm(p.name) + ":" + p.total; }).sort().join(",");
+}
+function ioNote(msg){
+  var n = $("#io-note");
+  if(!n) return;
+  n.textContent = msg; n.className = "note"; n.hidden = false;
+}
+function doExport(){
+  var data = JSON.stringify({ app:"skyjo", v:1, exported:Date.now(), lang:S.lang, settings:S.settings, history:S.history });
+  var box = $("#io"), area = $("#io-text");
+  if(box && area){ box.hidden = false; area.value = data; }
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(data).then(function(){ ioNote(t("copied")); }, function(){});
+    }
+  }catch(e){}
+  try{
+    var url = URL.createObjectURL(new Blob([data], {type:"application/json"}));
+    var a = document.createElement("a");
+    a.href = url; a.download = "skyjo-backup.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  }catch(e){}
+}
+function doImport(){
+  var area = $("#io-text");
+  if(!area) return;
+  try{
+    var p = JSON.parse(area.value);
+    var list = Array.isArray(p) ? p : (p && p.history);
+    if(!Array.isArray(list)) throw new Error("bad");
+    var seen = {};
+    S.history.forEach(function(h){ seen[h.id] = 1; seen[sig(h)] = 1; });
+    var added = 0;
+    list.forEach(function(h){
+      if(!h || !Array.isArray(h.players) || !Array.isArray(h.winners)) return;
+      if(!h.id) h.id = uid();
+      if(seen[h.id] || seen[sig(h)]) return;
+      seen[h.id] = 1; seen[sig(h)] = 1;
+      S.history.push(h); added++;
+    });
+    S.history.sort(function(a,b){ return (b.date || 0) - (a.date || 0); });
+    if(S.history.length > 500) S.history.length = 500;
+    save();
+    area.value = "";
+    ioNote(t("imported",{n:added}));
+  }catch(e){
+    ioNote(t("importError"));
+  }
+}
+
+/* ---------- actions ---------- */
+function recordGame(){
+  var g = S.game, c = calc(g);
+  var players = g.players.map(function(p){ return { name:p.name, total:c.totals[p.id] }; });
+  var best = Math.min.apply(null, players.map(function(p){ return p.total; }));
+  S.history.unshift({
+    id:uid(), date:Date.now(), rounds:g.rounds.length, limit:g.limit, players:players,
+    winners: players.filter(function(p){ return p.total === best; }).map(function(p){ return p.name; })
+  });
+  if(S.history.length > 500) S.history.length = 500;
+  S.setup = g.players.map(function(p){ return p.name; });
+  S.game = null; S.entry = null; S.view = "board";
+  save(); render(); window.scrollTo(0,0);
+}
+
+document.addEventListener("click", function(e){
+  var b = e.target.closest("[data-action]");
+  if(!b) return;
+  var a = b.dataset.action;
+
+  if(a === "modal-yes"){ var fn = pendingConfirm; closeModal(); if(fn) fn(); return; }
+  if(a === "modal-no"){ closeModal(); return; }
+
+  if(a === "export"){ doExport(); return; }
+  if(a === "import-open"){
+    var box = $("#io"), area = $("#io-text");
+    if(box){ box.hidden = false; }
+    if(area){ area.value = ""; area.focus(); }
+    var note = $("#io-note"); if(note) note.hidden = true;
+    return;
+  }
+  if(a === "import-run"){ doImport(); return; }
+
+  if(a === "tab"){ S.view = b.dataset.view; save(); render(); window.scrollTo(0,0); return; }
+
+  if(a === "setup-add"){
+    if(S.setup.length < 8){ S.setup.push(""); save(); render();
+      var ins = document.querySelectorAll("[data-setup]"); ins[ins.length-1].focus(); }
+    return;
+  }
+  if(a === "setup-remove"){ S.setup.splice(+b.dataset.i, 1); save(); render(); return; }
+  if(a === "setup-chip"){
+    var name = b.dataset.name;
+    var idx = S.setup.findIndex(function(s){ return !s.trim(); });
+    if(idx >= 0) S.setup[idx] = name;
+    else if(S.setup.length < 8) S.setup.push(name);
+    save(); render(); return;
+  }
+  if(a === "start"){
+    var players = S.setup.map(function(n,i){ return { id:uid(), name:n.trim() || t("playerN",{n:i+1}) }; }).slice(0,8);
+    S.game = { id:uid(), players:players, rounds:[], limit:S.settings.limit, double:S.settings.double, startedAt:Date.now() };
+    S.entry = null; save(); render(); window.scrollTo(0,0); return;
+  }
+
+  if(a === "open-entry"){
+    S.entry = { scores:{}, closer:null }; save(); render();
+    var first = document.querySelector("[data-score]");
+    var panel = $("#entry");
+    if(panel) panel.scrollIntoView({block:"start", behavior:"smooth"});
+    if(first) first.focus({preventScroll:true});
+    return;
+  }
+  if(a === "cancel-entry"){ S.entry = null; save(); render(); return; }
+  if(a === "flag"){
+    var id = b.dataset.id;
+    S.entry.closer = S.entry.closer === id ? null : id;
+    document.querySelectorAll(".flag").forEach(function(f){
+      var on = f.dataset.id === S.entry.closer;
+      f.classList.toggle("on", on); f.setAttribute("aria-pressed", String(on));
+    });
+    save(); updateEntryUI(false); return;
+  }
+  if(a === "sign"){
+    var inp = document.querySelector('[data-score="'+b.dataset.id+'"]');
+    var v = inp.value;
+    v = v.charAt(0) === "-" ? v.slice(1) : "-" + v;
+    inp.value = v; S.entry.scores[b.dataset.id] = v;
+    save(); updateEntryUI(false); inp.focus(); return;
+  }
+  if(a === "save-entry"){
+    var st = entryState();
+    if(!st.ready){ updateEntryUI(true); return; }
+    var sc = {};
+    S.game.players.forEach(function(p){ sc[p.id] = parseInt(S.entry.scores[p.id], 10); });
+    S.game.rounds.push({ scores:sc, closer:S.entry.closer });
+    S.entry = null; save(); render(); window.scrollTo({top:0, behavior:"smooth"}); return;
+  }
+  if(a === "del-round"){
+    var i = +b.dataset.i;
+    askConfirm(t("confirmDeleteRound",{n:i+1}), function(){ S.game.rounds.splice(i,1); save(); render(); });
+    return;
+  }
+  if(a === "record"){ recordGame(); return; }
+  if(a === "finish-now"){ askConfirm(t("confirmFinish"), recordGame); return; }
+  if(a === "abandon"){
+    askConfirm(t("confirmAbandon"), function(){
+      S.setup = S.game.players.map(function(p){ return p.name; });
+      S.game = null; S.entry = null; save(); render(); window.scrollTo(0,0);
+    });
+    return;
+  }
+  if(a === "del-game"){
+    var gid = b.dataset.id;
+    askConfirm(t("confirmDeleteGame"), function(){
+      S.history = S.history.filter(function(h){ return h.id !== gid; }); save(); render();
+    });
+    return;
+  }
+  if(a === "reset-board"){
+    askConfirm(t("confirmReset"), function(){ S.history = []; save(); render(); });
+    return;
+  }
+});
+
+document.addEventListener("input", function(e){
+  var el = e.target;
+  if(el.dataset.setup !== undefined){ S.setup[+el.dataset.setup] = el.value; save(); return; }
+  if(el.dataset.score !== undefined && S.entry){
+    var v = el.value.replace(/[^\d-]/g, "").replace(/(?!^)-/g, "").slice(0,4);
+    if(v !== el.value) el.value = v;
+    S.entry.scores[el.dataset.score] = v;
+    save(); updateEntryUI(false);
+  }
+});
+
+document.addEventListener("change", function(e){
+  var el = e.target;
+  if(el.id === "lang"){ S.lang = el.value; save(); render(); }
+  else if(el.id === "opt-limit"){ S.settings.limit = +el.value; save(); render(); }
+  else if(el.id === "opt-double"){ S.settings.double = el.checked; save(); }
+});
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && !$("#modal").hidden){ closeModal(); return; }
+  if(e.key !== "Enter") return;
+  var el = e.target, sel = null;
+  if(el.dataset && el.dataset.score !== undefined) sel = "[data-score]";
+  else if(el.dataset && el.dataset.setup !== undefined) sel = "[data-setup]";
+  if(!sel) return;
+  e.preventDefault();
+  var all = Array.prototype.slice.call(document.querySelectorAll(sel));
+  var i = all.indexOf(el);
+  if(all[i+1]) all[i+1].focus(); else el.blur();
+});
+
+$("#modal").addEventListener("click", function(e){ if(e.target === this) closeModal(); });
+
+render();
+})();
+</script>
+</body>
+</html>
